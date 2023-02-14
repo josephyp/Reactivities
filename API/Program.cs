@@ -15,6 +15,15 @@ builder.Services.AddDbContext<DataContext>(opt =>
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")); //We need Connection string to connect to SQLite which we can provide in appsettings.[Development].json configuration file(s)
 });
 
+//CorsPolicy
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,6 +34,8 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection(); //Ours is a Single Page Application
+//Cors Policy 
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization(); //For Authentication / Authorization
 
