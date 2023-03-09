@@ -1,15 +1,28 @@
 using API.Extensions;
 using API.Middleware;
+using Domain;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+//We will add auth policy here
+builder.Services.AddControllers(opt =>
+{
+    //create policy
+    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+    //add policy to filters
+    opt.Filters.Add(new AuthorizeFilter(policy));
 
-builder.Services.AddControllers();
+});
 //Moved the service additions to Extension class API>Extensions>ApplicationServiceExtensions.cs
 builder.Services.AddApplicationservices(builder.Configuration);
+//Add Identity services extension
+builder.Services.AddIdentityServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -26,6 +39,7 @@ if (app.Environment.IsDevelopment())
 //Cors Policy 
 app.UseCors("CorsPolicy");
 
+app.UseAuthentication();
 app.UseAuthorization(); //For Authentication / Authorization
 
 app.MapControllers(); //Registers those endpoints 
@@ -38,10 +52,11 @@ var services = scope.ServiceProvider;
 try
 {
     var context = services.GetRequiredService<DataContext>();
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
     //context.Database.Migrate(); //Lets use ascync method
     await context.Database.MigrateAsync();
     //Let's also seed the data
-    await Seed.SeedDataAsync(context);
+    await Seed.SeedDataAsync(context, userManager);
 }
 catch (Exception ex)
 {
