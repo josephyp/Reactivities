@@ -10,7 +10,7 @@ namespace API.Controllers
     //No need to add [ApiController] attribute as it is derived from a class that has this attribute.
     public class ActivitiesController : BaseApiController
     {
-
+        //[Microsoft.AspNetCore.Authorization.AllowAnonymous]
         [HttpGet]   //api/activities
         public async Task<IActionResult> GetActivities()
         {

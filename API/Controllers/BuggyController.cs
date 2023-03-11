@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Microsoft.AspNetCore.Authorization.AllowAnonymous]
     public class BuggyController : BaseApiController
     {
         [HttpGet("not-found")]
