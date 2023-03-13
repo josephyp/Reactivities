@@ -1,4 +1,6 @@
 //Remove unecessary usings. Click Ctrl+. for bulb to popup and take the action.
+using System.Collections;
+
 namespace Domain
 {
     public class Activity
@@ -11,5 +13,7 @@ namespace Domain
         public string Category { get; set; }
         public string City { get; set; }
         public string Venue { get; set; }  //If you are getting Nonnullable wiggly then set the Nullable property value to false in Domain.csproj file
+        public bool IsCancelled { get; set; }
+        public ICollection<ActivityAttendee> Attendees { get; set; } = new List<ActivityAttendee>();
     }
 }
