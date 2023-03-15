@@ -14,6 +14,6 @@ namespace Application.Activities
         public string Venue { get; set; }  //If you are getting Nonnullable wiggly then set the Nullable property value to false in .csproj file
         public string HostUsername { get; set; } //To identify Host attendee (profile)
         public bool IsCancelled { get; set; }
-        public ICollection<Profile> Attendees { get; set; } = new List<Profile>();
+        public ICollection<AttendeeDto> Attendees { get; set; } = new List<AttendeeDto>();
     }
 }
