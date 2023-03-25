@@ -1,5 +1,6 @@
 using API.Extensions;
 using API.Middleware;
+using API.SignalR;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -43,6 +44,8 @@ app.UseAuthentication();
 app.UseAuthorization(); //For Authentication / Authorization
 
 app.MapControllers(); //Registers those endpoints 
+//Map the ChatHub
+app.MapHub<ChatHub>("/chat"); //API.SignalR and the root to direct the users to when they connect to our chat hub. Let's then authenticate
 
 //Run migration 
 using var scope = app.Services.CreateScope();

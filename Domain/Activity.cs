@@ -15,5 +15,6 @@ namespace Domain
         public string Venue { get; set; }  //If you are getting Nonnullable wiggly then set the Nullable property value to false in Domain.csproj file
         public bool IsCancelled { get; set; }
         public ICollection<ActivityAttendee> Attendees { get; set; } = new List<ActivityAttendee>();
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
     }
 }
